@@ -1,0 +1,11 @@
+{
+  "name": "wedding-rsvp-serverless",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sequelize": "^6.21.3",
+    "serverless-http": "^2.7.0",
+    "sqlite3": "^5.0.11"
+  }
+}
