@@ -1,5 +1,5 @@
 import sequelize from "./sequelize";
-import Rsvp from './models/rsvp';
+import Rsvp from './rsvp_model';
 const serverless = require("serverless-http");
 const express = require("express");
 const app = express();
@@ -23,7 +23,6 @@ app.get("/guest", (req, res, next) => {
 
   if (name) {
     const matches = Rsvp.findAll({ where: { first_name, last_name }});
-    
     return res.status(200).json({
       matches,
     });
