@@ -4,6 +4,8 @@ const serverless = require("serverless-http");
 const express = require("express");
 const app = express();
 
+app.get("/test-api", (req, res, next) => res.status(200).json({ message: "great success"}));
+
 app.get("/test-connection", (req, res, next) => {
   try {
     await sequelize.authenticate();

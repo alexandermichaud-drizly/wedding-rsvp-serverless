@@ -5,7 +5,7 @@ const dbUser = 'admin';
 const dbPassword = 'ALdsm&$MP#QAGor6';
 const dbName = 'wedding';
 
-const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
+export const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
   host,
   dialect: 'mysql',
 });
