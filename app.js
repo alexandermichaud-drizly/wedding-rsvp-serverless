@@ -25,8 +25,8 @@ app.get("/test-connection", async (req, res, next) => {
 });
 
 app.get("/guest", async (req, res, next) => {
-  const { query } = req;
-  const { first_name, last_name } = query;
+  const { body } = req;
+  const { first_name, last_name } = body;
 
   if (first_name && last_name) {
     try {
