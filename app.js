@@ -2,8 +2,9 @@ const { Rsvp, sequelize }= require("./rsvp_model");
 const { Op } = require("sequelize");
 const express = require("express");
 const boolParser = require('express-query-boolean');
-const app = express();
 const { isNil } = require("lodash");  
+
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -25,8 +26,8 @@ app.get("/test-connection", async (req, res, next) => {
 });
 
 app.get("/guest", async (req, res, next) => {
-  const { body } = req;
-  const { first_name, last_name } = body;
+  const { query } = req;
+  const { first_name, last_name } = query;
 
   if (first_name && last_name) {
     try {
