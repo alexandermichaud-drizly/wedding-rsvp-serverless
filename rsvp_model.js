@@ -10,8 +10,8 @@ const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
   dialect: 'mysql',
 });
 
-const Rsvp = sequelize.define('Rsvp', {
-  id: {
+const Rsvp = sequelize.define('rsvp', {
+  guest_id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
@@ -27,7 +27,7 @@ const Rsvp = sequelize.define('Rsvp', {
   attending: {
     type: DataTypes.BOOLEAN,
   }
-});
+}, {timestamps: true, createdAt: 'created_at', updatedAt: 'updated_at'});
 
 module.exports = {
   Rsvp,

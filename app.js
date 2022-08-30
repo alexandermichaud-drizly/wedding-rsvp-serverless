@@ -1,5 +1,5 @@
 const { Rsvp, sequelize }= require("./rsvp_model");
-const serverless = require("serverless-http");
+const { Op } = require("sequelize");
 const express = require("express");
 const app = express();
 
@@ -23,11 +23,22 @@ app.get("/guest", async (req, res, next) => {
   const { first_name, last_name } = query;
 
   if (first_name && last_name) {
-    const matches = await Rsvp.findAll({ where: { first_name, last_name }});
-    return res.status(200).json({
-      matches,
-    });
+    try {
+      const matches = await Rsvp.findAll({ where: { first_name: {
+        [Op.like]: `${first_name}%`
+      }, last_name: {
+        [Op.like]: `${last_name}%`
+      } }});
+      return res.status(200).json({
+        matches,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error,
+      });
+    }
   }
+  return res.status(400).json({ message: "Full name not provided"});
 });
 
 app.post("/reply", (req, res, next) => {
