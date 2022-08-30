@@ -59,7 +59,7 @@ app.post("/reply", async (req, res, next) => {
       next(error);
     }
   }
-  return res.status(400).json({ query }); 
+  return res.status(400).json({ message: "Missing necessary data to update RSVP" }); 
 });
 
 app.use((req, res, next) => {
