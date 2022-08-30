@@ -2,13 +2,15 @@ const { Rsvp, sequelize }= require("./rsvp_model");
 const { Op } = require("sequelize");
 const express = require("express");
 const boolParser = require('express-query-boolean');
-const { isNil } = require("lodash");  
+const { isNil } = require("lodash"); 
+const cors = require('cors');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(boolParser());
+app.use(cors());
 
 app.get("/test-api", (req, res, next) => res.status(200).json({ message: "great success"}));
 
