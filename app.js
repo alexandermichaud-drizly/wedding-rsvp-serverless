@@ -34,9 +34,9 @@ app.get("/guest", async (req, res, next) => {
   if (first_name && last_name) {
     try {
       const matches = await Rsvp.findAll({ where: { first_name: {
-        [Op.like]: `${first_name}%`
+        [Op.like]: `%${first_name}%`
       }, last_name: {
-        [Op.like]: `${last_name}%`
+        [Op.like]: `%${last_name}%`
       } }});
       return res.status(200).json({
         matches,
