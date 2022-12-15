@@ -26,8 +26,12 @@ const Rsvp = sequelize.define('rsvp', {
   },
   attending: {
     type: DataTypes.BOOLEAN,
+  },
+  entree: {
+    type: DataTypes.INTEGER
   }
 }, {timestamps: true, createdAt: 'created_at', updatedAt: 'updated_at'});
+
 
 module.exports = {
   Rsvp,
