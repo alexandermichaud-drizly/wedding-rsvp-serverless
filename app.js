@@ -1,4 +1,4 @@
-const { Rsvp, Meal, sequelize }= require("./models");
+const { Rsvp, sequelize }= require("./models");
 const { Op } = require("sequelize");
 const express = require("express");
 const boolParser = require('express-query-boolean');
@@ -82,7 +82,7 @@ app.post("/meal", async() => {
 
   if (guest_id && !isNil(meal_preference)) { 
     try { 
-      const result = await Rsvp.update({ entree: meal_preference }, { where: { guest_id }});
+      const result = await Rsvp.update({ meal: meal_preference }, { where: { guest_id }});
       return res.status(200).json({
         message: result,
       });

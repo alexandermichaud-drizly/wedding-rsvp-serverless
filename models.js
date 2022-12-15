@@ -27,7 +27,7 @@ const Rsvp = sequelize.define('rsvp', {
   attending: {
     type: DataTypes.BOOLEAN,
   },
-  entree: {
+  meal: {
     type: DataTypes.INTEGER
   }
 }, {timestamps: true, createdAt: 'created_at', updatedAt: 'updated_at'});
