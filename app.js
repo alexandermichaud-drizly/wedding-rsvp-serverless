@@ -11,16 +11,6 @@ const errors = {
   generic: "Something went wrong"
 }
 
-const nameLookupHelper = async (firstName, lastName) => await Rsvp.findAll({ 
-  where: { 
-    first_name: {
-      [Op.like]: `%${firstName}%`
-    }, last_name: {
-      [Op.like]: `%${lastName}%`
-    }
-  }
-});
-
 const app = express();
 
 app.use(express.json());
@@ -49,7 +39,15 @@ app.get("/guest", async (req, res, next) => {
 
   if (first_name && last_name) {
     try {
-      const matches = nameLookupHelper(first_name, last_name);
+      const matches = Rsvp.findAll({ 
+        where: { 
+          first_name: {
+            [Op.like]: `%${first_name}%`
+          }, last_name: {
+            [Op.like]: `%${last_name}%`
+          }
+        }
+      });
       return res.status(200).json({
         matches,
       });
