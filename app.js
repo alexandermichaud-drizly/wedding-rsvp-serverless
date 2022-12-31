@@ -1,9 +1,25 @@
-const { Rsvp, sequelize }= require("./rsvp_model");
+const { Rsvp, sequelize }= require("./models");
 const { Op } = require("sequelize");
 const express = require("express");
 const boolParser = require('express-query-boolean');
 const { isNil } = require("lodash"); 
 const cors = require('cors');
+
+const errors = {
+  nameNotProvided: "Full name not provided",
+  missingData: "Missing necessary data to update",
+  generic: "Something went wrong"
+}
+
+const nameLookupHelper = async (firstName, lastName) => await Rsvp.findAll({ 
+  where: { 
+    first_name: {
+      [Op.like]: `%${firstName}%`
+    }, last_name: {
+      [Op.like]: `%${lastName}%`
+    }
+  }
+});
 
 const app = express();
 
@@ -33,11 +49,7 @@ app.get("/guest", async (req, res, next) => {
 
   if (first_name && last_name) {
     try {
-      const matches = await Rsvp.findAll({ where: { first_name: {
-        [Op.like]: `%${first_name}%`
-      }, last_name: {
-        [Op.like]: `%${last_name}%`
-      } }});
+      const matches = nameLookupHelper(first_name, last_name);
       return res.status(200).json({
         matches,
       });
@@ -45,7 +57,7 @@ app.get("/guest", async (req, res, next) => {
       next(error)  
     }
   }
-  return res.status(400).json({ message: "Full name not provided"});
+  return res.status(400).json({ message: errors.nameNotProvided });
 });
 
 app.post("/reply", async (req, res, next) => {
@@ -61,12 +73,38 @@ app.post("/reply", async (req, res, next) => {
       next(error);
     }
   }
-  return res.status(400).json({ message: "Missing necessary data to update RSVP" }); 
+  return res.status(400).json({ message: errors.missingData + " RSVP" }); 
+});
+
+app.post("/meal", async() => {
+  const { body } = req;
+  const { guest_id, meal, vegetarian, vegan, gluten_free, allergies } = body; 
+
+  if (guest_id && !isNil(meal)) { 
+    try { 
+      const result = await Rsvp.update({ 
+        meal, 
+        vegetarian, 
+        vegan, 
+        gluten_free, 
+        allergies
+      }, 
+      { 
+        where: { guest_id }
+      });
+      return res.status(200).json({
+        message: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  return res.status(400).json({ message: errors.missingData + " meal preference" }); 
 });
 
 app.use((req, res, next) => {
   return res.status(404).json({
-    error: "Something went wrong",
+    error: errors.generic,
   });
 });
 
