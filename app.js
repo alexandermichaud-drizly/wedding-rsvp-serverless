@@ -78,11 +78,20 @@ app.post("/reply", async (req, res, next) => {
 
 app.post("/meal", async() => {
   const { body } = req;
-  const { guest_id, meal } = body; 
+  const { guest_id, meal, vegetarian, vegan, gluten_free, allergies } = body; 
 
-  if (guest_id && !isNil(meal_preference)) { 
+  if (guest_id && !isNil(meal)) { 
     try { 
-      const result = await Rsvp.update({ meal }, { where: { guest_id }});
+      const result = await Rsvp.update({ 
+        meal, 
+        vegetarian, 
+        vegan, 
+        gluten_free, 
+        allergies
+      }, 
+      { 
+        where: { guest_id }
+      });
       return res.status(200).json({
         message: result,
       });

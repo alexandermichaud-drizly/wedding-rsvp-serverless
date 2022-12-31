@@ -29,7 +29,19 @@ const Rsvp = sequelize.define('rsvp', {
   },
   meal: {
     type: DataTypes.INTEGER
-  }
+  },
+  vegetarian: {
+    type: DataTypes.BOOLEAN
+  },
+  vegan: {
+    type: DataTypes.BOOLEAN
+  },
+  gluten_free: {
+    type: DataTypes.BOOLEAN
+  },
+  allergies: {
+    type: DataTypes.TEXT
+  } 
 }, {timestamps: true, createdAt: 'created_at', updatedAt: 'updated_at'});
 
 module.exports = {
