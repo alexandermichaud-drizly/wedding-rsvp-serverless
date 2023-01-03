@@ -39,7 +39,7 @@ app.get("/guest", async (req, res, next) => {
 
   if (first_name && last_name) {
     try {
-      const matches = Rsvp.findAll({ 
+      const matches = await Rsvp.findAll({
         where: { 
           first_name: {
             [Op.like]: `%${first_name}%`
@@ -48,9 +48,7 @@ app.get("/guest", async (req, res, next) => {
           }
         }
       });
-      return res.status(200).json({
-        matches,
-      });
+      return res.status(200).json({matches});
     } catch (error) {
       next(error)  
     }
@@ -74,11 +72,11 @@ app.post("/reply", async (req, res, next) => {
   return res.status(400).json({ message: errors.missingData + " RSVP" }); 
 });
 
-app.post("/meal", async() => {
+app.post("/meal", async(req, res, nex) => {
   const { body } = req;
   const { guest_id, meal, vegetarian, vegan, gluten_free, allergies } = body; 
 
-  if (guest_id && !isNil(meal)) { 
+  if (guest_id && meal) { 
     try { 
       const result = await Rsvp.update({ 
         meal, 
